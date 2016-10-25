@@ -1,0 +1,28 @@
+extends layout
+
+block content
+	#bulkRegister.container-fluid(ng-controller="bulkRegisterController")
+		div.bulkRegisterTableContainer
+			if message !== undefined && message.length > 0
+				div.alert.alert-danger #{message}
+			button#showImportModal.btn.btn-primary(data-toggle="modal" data-target="#importModal") Import
+			a.btn.btn-default(href="/bulkRegister/export" role="button") Export	
+			a.btn.btn-default(href="/bulkRegister/downloadTemplate" role="button") Download Template			
+			div.grid(ui-grid="gridOptions" ui-grid-pinning)
+			div#importModal.modal.fade(tabindex="-1" role="dialog" aria-labelledby="importModalLabel")
+				div.modal-dialog
+					form(method="post" action="/bulkRegister/import" enctype='multipart/form-data')
+						div.modal-header
+							button.close(type="button" data-dismiss="modal" aria-label="Close")
+								span(aria-hidden="true") &times;
+							h4.modal-title Import
+						div.modal-body
+							div.form-group
+								input(type="file" name="employeeDetails" accept=".xls,.xlsx,.ods" multiple="false")
+							ul
+								li.white Make use of the template. Maintain the column order
+								li.white Employees added or edited in the excel sheet will be reflected
+								li.white Email Id, Branch Id are mandatory
+						div.modal-footer
+							button.btn.btn-default(type="button" data-dismiss="modal") Close
+							button.btn.btn-primary(type="submit") OK

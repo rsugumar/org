@@ -1,0 +1,18 @@
+extends layout
+
+block content
+	script.
+		var mkvisibleLogout = false;
+	div
+		h1= 'Authenticate Yourself Now!'
+		form(name='authencate' method='post' action='/auth')
+			fieldset
+				p
+				label.white Email ID:
+				input(type='text' name='emailid' required)
+				p
+				label.white Password:
+				input(type='password' name='password' required)
+				input(data-ng-hide='true' name='isApp' value='false')
+				div.actions
+					input.btn-primary.customcenter(type='submit', value='Login')

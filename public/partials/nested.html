@@ -1,0 +1,225 @@
+<!-- Markup for lists inside the dropzone. It's inside a seperate template
+     because it will be used recursively. The dnd-list directive enables
+     to drop elements into the referenced array. The dnd-draggable directive
+     makes an element draggable and will transfer the object that was
+     assigned to it. If an element was dragged away, you have to remove
+     it from the original list yourself using the dnd-moved attribute -->
+<script type="text/ng-template" id="list.html">
+    <div class="childTree">
+        <ul style="height: 100%; width: 100% ">
+            <li class="treeList"
+                ng-repeat="item in list"
+                dnd-draggable="item"
+                dnd-effect-allowed="move"
+                dnd-drop="dropFunction ( item )"
+                dnd-moved="list.splice($index, 1)"
+                dnd-selected="models.selected = item"              
+                 ng-include="'container.html'">
+            </li>
+        </ul>
+    </div>
+</script>
+
+<!-- This template is responsible for rendering a container element. It uses
+     the above list template to render each container column -->
+<script type="text/ng-template" id="container.html">
+    <div ng-repeat="list in item.columns"  >
+        <a  dnd-list="list" dnd-drop="validateDrop(event, index, item)" style="z-index: 50;" ng-repeat="list in item.columns">
+                <h4 class="nodeHeader">{{item.empName.fName}}</h4>
+                <p ng-hide="false" id="nodeObjectId">{{item.employeeObjectId}}</p>  
+                <p id="nodeId">{{item.contact.emailId}}</p>    
+                <p >{{item.designation}}</p> 
+        </a> 
+        <div ng-include="'list.html'"></div>
+    </div>  
+</script>
+
+<!-- Template for a normal list item -->
+<!-- <script type="text/ng-template" id="item.html">
+    <div class="item">Item {{item.id}}</div>
+</script> -->
+
+<!-- Sidebar -->
+<div class="col-md-2 col-sm-3 leftPaneContainer removePadding">
+    <div class=" col-sm-12 addMarginTopBottom ">
+        <div angucomplete-alt="" id="ex1" placeholder="Search people" pause="300" selected-object="selectedPerson" local-data="people" search-fields="name,id" title-field="name,id" description-field="id" minlength="1" input-class="form-control form-control-small" match-class="highlight" class="col-sm-12 ng-isolate-scope removePadding">
+        </div> 
+        <div class="col-sm-12 addMarginTopBottom removePadding">
+            <button id="addUser" type="button" class="btn btn-default btn-success col-sm-12" data-toggle="modal" data-target="#addUserModal">Add</button>
+        </div>
+        <div class="col-sm-12 addMarginTopBottom removePadding">
+             <button class="btn btn-default btn-primary col-sm-12" type="submit" ng-click="saveTree()">Save Tree</button>
+        </div>
+        <div class="col-sm-12 addMarginTopBottom removePadding">
+            <button class="btn btn-default btn-primary col-sm-12" type="submit">Refresh</button>
+        </div>
+
+        <div class="col-sm-12 leftPaneDivSpitter"></div>
+    </div> 
+
+    <div class="col-sm-12 unAssignedUsers">
+        <h4>Un-Assigned ({{ models.unAssignedUsers.length}})</h4>
+        <div class="unAssignedUsersListScroll">
+            <ul>
+                <!-- The toolbox only allows to copy objects, not move it. After a new
+                     element was created, dnd-copied is invoked and we generate the next id -->
+                <li ng-repeat="item in models.unAssignedUsers"
+                    dnd-draggable="item"
+                    dnd-effect-allowed="move"
+                    dnd-moved="moveCallBack(event, index, item, external, type)"
+                    >
+                    <div class="unAssignedNodeContainer" ng-mouseenter="action=true" ng-mouseleave="action=false">
+                        <div class="leftPaneNodeImageHolder">
+                            <img src="/images/profileDefaultAvatar.png"/>
+                        </div>
+                        <div class="leftPaneNodeDescriptionHolder">
+                            <p ng-attr-title="{{item.employee.empName.fName}} {{item.employee.empName.lName}}">{{item.employee.empName.fName}}</p>
+                            <p ng-hide="true" id="nodeObjectId">{{item.employeeObjectId}}</p>
+                            <p ng-attr-title="{{item.employee.contact.emailId}}" class="emailId">{{item.employee.contact.emailId}}</p>
+                            <p ng-attr-title="{{item.employee.designation}}" class="designationDesc">{{item.employee.designation}}</p>                             
+                        </div>
+                        <div class="actionContainer">
+                            <span  ng-show="action" ng-click="editUserDetails(item.id)" class="glyphicon glyphicon-edit editAction" aria-hidden="true" data-toggle="modal" data-target="#editUserModal"></span>
+                            <span  ng-show="action" class="glyphicon glyphicon-remove" aria-hidden="true" ng-click="deleteUser(item.id)"></span> 
+                        </div>                        
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Main area with dropzones and source code -->
+<div class="col-md-10 tree removePadding rightPaneContainer">
+    <div class="row" >
+        <div ng-repeat="(zone, list) in models.dropzones" class="col-sm-12">
+            <li class="col-sm-12" >
+                <div class="col-sm-12" dnd-list="list" ng-include="'list.html'" />
+            </li>
+        </div>
+    </div>    
+</div>
+
+
+<!-- Add Modal Window-->
+<div id="addUserModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="gridSystemModalLabel">Add New User</h4>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Name:</label>
+                            <input type="text" class="form-control" id="name" ng-model="newUser.name">
+                        </div>
+                        <div class="form-group">
+                            <label for="id" class="control-label">Id:</label>
+                            <input type="number" class="form-control" id="id" ng-model="newUser.id">
+                        </div>
+                        <div class="form-group">
+                            <label for="designation" class="control-label">Designation:</label>
+                            <input type="text" class="form-control" id="designation" ng-model="newUser.designation">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="avatar" class="control-label">Profile Image:</label>
+                            <input type="file" class="form-control" id="avatar">
+                        </div>
+                    </div>
+              </div>
+            </form>
+        </div>
+        <div class="modal-footer align-center">
+            <button type="button" class="btn btn-default btn-success" ng-click="createNewUser()">Save</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Modal Window-->
+<div id="editUserModal" class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="gridSystemModalLabel">Add New User</h4>
+        </div>
+        <div class="modal-body">
+            <form>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="name" class="control-label">Name:</label>
+                            <input type="text" class="form-control" id="name" ng-model="user.name">
+                        </div>
+                        <div class="form-group">
+                            <label for="id" class="control-label">Id:</label>
+                            <input type="string" class="form-control" id="id" ng-model="user.id" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label for="designation" class="control-label">Designation:</label>
+                            <input type="text" class="form-control" id="designation" ng-model="user.designation">
+                        </div>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="form-group">
+                            <label for="avatar" class="control-label">Profile Image:</label>
+                            <input type="file" class="form-control" id="avatar">
+                        </div>
+                    </div>
+              </div>
+            </form>
+        </div>
+        <div class="modal-footer align-center">
+            <button type="button" class="btn btn-default btn-success" ng-click="saveUserDetails()">Save</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Error Modal Window-->
+<div id="errorModel" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header errorHeader">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="gridSystemModalLabel">Error !</h4>
+      </div>
+      <div class="modal-body">
+        <p>{{message}}</p>
+      </div>
+      <div class="modal-footer align-center">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Confirmation Modal Window-->
+<!-- <div id="confirmationModal" class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content">
+      <div class="modal-header errorHeader">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="gridSystemModalLabel">Alert !</h4>
+      </div>
+      <div class="modal-body">
+        <p></p>
+      </div>
+      <div class="modal-footer align-center">
+            <button type="button" class="btn btn-default btn-success" >Yes</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div> -->

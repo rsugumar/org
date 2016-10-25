@@ -1,0 +1,50 @@
+extends layout
+
+block content
+    #page.container.site
+      .row-fluid.thelayout
+        .span6.thelayout-intro(style='margin-top: 0px;height: 700px;')
+          div(style='margin-left: 60px; background: url("img/index.png") no-repeat; background-size: 100% 100%; height: 700px; width: 400px;')
+        .span6.thelayout-list(style='margin-top: 100px;')
+          .row-fluid.entry
+            hgroup
+              h1.entry-title
+                | GLUser
+          .row-fluid.entry
+            hgroup
+              h1.entry-title
+                | Welcome to Gluser experience!
+          .row-fluid.entry
+            hgroup
+              h2.entry-title
+                a(href='#{bulkRegistrationURL}', title='Bulk Employee Registration', rel='') Bulk Employee Registration
+          .row-fluid.entry
+            hgroup
+              h2.entry-title
+                a(href='#{employeeURL}', title='Employee Registration', rel='') New Employee Registration
+          .row-fluid.entry
+            hgroup
+              h2.entry-title
+                a(href='#{companyURL}', title='Company Registration', rel='') New Company Registration
+          .row-fluid.entry
+            hgroup(data-ng-controller="indexCtrl")
+              h2.entry-title
+                a(href='', data-ng-click='mkUpdVisible( )', title='Update Existing Information', rel='') Edit/Update Info
+              h4(data-ng-show='isUpdateVisible')
+                a(style='margin-left: 10px' href='#{updateURL}Company', title='Update Company Information', rel='') - Update Company Info
+              h4.entry-title(data-ng-show='isUpdateVisible')
+                a(style='margin-left: 10px' href='#{updateURL}Employee', title='Update Employee Information', rel='') - Update Employee Info
+          .row-fluid.entry
+            hgroup
+              h2.entry-title
+                a(href='#{orgChartURL}', title='Organization Chart', rel='') Organization Chart
+          .entry-content
+            h3
+              | Brought to you by 
+              a(href='http://www.mobionix.com', title='mobionix') Mobionix
+              | .
+        // span6 thelayout-list
+      // row-fluid
+      #background
+    // container
+    div(style='display:none')

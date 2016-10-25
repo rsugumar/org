@@ -1,0 +1,135 @@
+extends layout
+
+block content
+   #page.container.site
+      .row-fluid.thelayout
+         .span5(style='height: auto;')
+            img.img-responsive(style='background: url("img/user.png");margin-top: 140px; height: 850px; width: 400px;')
+         .span7.thelayout-list
+            div(data-ng-controller='updateEmployeeCtrl')
+               .__formData
+                  h1= 'Update Employee Details'
+
+                  form( name='srchDb', method='post', action='/updateEmployee' )
+                     fieldset
+                        legend Find the Employee you want to edit
+                        .span8
+                           label Employee ID:
+                           input(type='text', name='employeeID', required)
+                           div.actions
+                              p
+                              input(type='submit', value='Search')
+
+
+               div(style='margin-top: 0px;').__formData
+                  div(data-ng-show='#{isEnabled}' data-ng-cloak)
+                     form(style='float: none; margin: 20px auto;' name='addUser', method='post', action='/updateEmployee/upddel', enctype='multipart/form-data')
+                        fieldset
+                           fieldset
+                              legend Employee Details
+                              div(style='float: right; overflow: hidden;')
+                                 div(style='margin-top: 20px; float: right; margin-right: 25px; height: 250px; width: 250px;')
+                                    div(fancybox data-ng-click = 'openFancybox("/api/user/#{locals.profilepix}")' style='margin-top: 20px; float: right; margin-right: 25px;height: 200px; width: 200px;')
+                                       img(id= 'profilePicImg', data-ng-init = 'profileId = "#{locals.profilepix}" ' src= '/api/user/#{locals.profilepix}', alt= ' ', style = 'margin-bottom: 10px' height= '200', width= '200' data-ng-src='{{ croppedImage }}')
+                                    a(style='margin-left: 25px; font-size: 20px; ' data-ng-click='browseImageAlias()')= 'edit'
+                                    a(style='margin-left: 15px; font-size: 20px;' data-ng-click='cancelImage()')= 'cancel'
+
+                                 div( data-ng-show= 'false').__cropArea
+                                    .__browse__DragDiv
+                                       div(style='position: absolute; margin: 0 20px;')
+
+                                          .alias__browsediv(style='display: block; height: 25px; width: 80px; margin: 0 auto; background: white; text-align: center; padding-top: 3px; font-weight: bold;' id='browsedivbtn2' data-ng-click='browseimageAlias()') Browse
+
+                                       input.__browse__buttonLong(fancybox type='file', id='profilePicUpload', accept='image/*', data-ng-file-select='handleFileSelect($file)', class='data-ng-hide', onchange='angular.element(this).scope().handleFileSelect(this)')
+
+                                       div(id='imageCropDiv')
+                                          img-crop(id='imageCrop' style='height: 300px; width: 300px;' name = 'croppedInfo', image='myImage', data-ng-model='myCropImage', result-image='myCropImage', result-image-quality='1', on-change='fileUploader()')
+                                          .alias__browsediv(style='display: block; height: 25px; width: 80px; margin-top: 10px; background: lightblue; text-align: center; padding-top: 3px; font-weight: bold;' id='browsedivbtn2' data-ng-click='setcroppedImage()') Ok
+                              p
+                              label First Name :
+                              input(type='text', name='fName', placeholder='Enter First Name Here', value=locals.fName, required)
+                              p
+                              label Middle Name :
+                              input(type='text', name='mName', placeholder='Enter Middle Name Here', value=locals.mName)
+                              p
+                              label Last Name :
+                              input(type='text', name='lName', placeholder='Enter Last Name Here', value=locals.lName, required)
+                              p
+                              label Employee ID :
+                              input(type='text', name='empId', placeholder='Enter Employee ID Here', value=locals.employeeId, required)
+                              p
+                              label Designation :
+                              input(type='text', name='designation', placeholder='Enter Designation Here', value=locals.designation, required)
+                              p
+                              label Department :
+                              input(type='text', name='department', placeholder='Enter Department Here', value=locals.department, required)
+                              p
+                              label Division :
+                              input(type='text', name='division', placeholder='Enter Division Here', value=locals.division, required)
+                              p
+                              label Skill Sets :
+                              input(type='text' name='skillSets' placeholder='Enter your Skillsets Here', value=locals.skills)
+                              p
+                              label Company :
+                              select(name='company', data-ng-model='selectedCompany', data-ng-change='generateBranches()', data-ng-options='company for company in companies', data-ng-init='selectedCompany=companies[getIndexFromCompanyValue()]', required)
+                                 option(value='' disabled selected hidden) --Select the Company--
+                              script.
+                                 var companyList = !{JSON.stringify(companyList)}
+                                 company = !{JSON.stringify(locals.company)}
+                              p
+                              label Branch :
+                              select(name='branch', data-ng-model='selectedBranch', data-ng-options='branch for branch in branches', data-ng-init='generateBranches(); selectedBranch=branches[getIndexFromBranchValue()]', required)
+                                 option(value='' disabled selected hidden) --Select the Branch--
+                              script.
+                                 var branchList = !{JSON.stringify(branchList)}
+                                 branch = !{JSON.stringify(locals.branch)}
+                              p
+                              label(data-ng-model='mkInvisible'  data-ng-disabled='mkInvisible') Manager :
+                              select(name='manager' data-ng-disabled='mkInvisible',data-ng-init='initializeSelectedValue()' data-ng-model='selectedManager', data-ng-options='manager.fName + " " + manager.mName + " " + manager.lName for manager in managers track by manager._id' required)
+                              script.
+                                 var managerList = !{JSON.stringify(managerList)}
+                                 manager = !{JSON.stringify(locals.manager)}
+                              p
+                              fieldset
+                                 legend Employee Contact
+                                 p
+                                    label Work Number :
+                                    input(type='text', name='workNo', value=locals.workNum)
+                                 p
+                                    label Mobile Number :
+                                    input(type='text', name='mobNo', required, value=locals.mobNum)
+                                 p
+                                    label eMail ID :
+                                    input(type='email', name='emailId', required, value=locals.email)
+                              fieldset
+                                 legend Employee Address
+                                 p
+                                    label Address Line1 :
+                                    input(type='text', name='addressLine1', required, value=locals.addrL1)
+                                 p
+                                    label Address Line2 :
+                                    input(type='text', name='addressLine2', required, value=locals.addrL2)
+                                 p
+                                    label Address Line3 :
+                                    input(type='text', name='addressLine3', required, value=locals.addrL3)
+                                 p
+                                    label City :
+                                    input(type='text', name='city', required, value=locals.city)
+                                 p
+                                    label State :
+                                    input(type='text', name='state', required, value=locals.state)
+                                 p
+                                    label Pin Code :
+                                    input(type='number', name='pinCode', required, value=locals.pinCode)
+                                 p
+                                    label Country :
+                                    input(type='text', name='country', required, value=locals.country)
+
+                                 p(data-ng-show='false')
+                                    input(type='text', name='croppedImage', value='{{ finalcroppedImageData }}')
+
+                           div.actions
+                              p
+                                 input(name='eid' , value= '#{employeeObjid}' data-ng-hide="true")
+                                 input( name='button' type='submit', value='Update' )
+                                 input( name='button', style = 'margin-left: 15px', type='submit', value='Delete Employee')

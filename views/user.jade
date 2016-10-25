@@ -1,0 +1,114 @@
+extends layout
+
+block content
+    #page.container.site
+      .row-fluid.thelayout
+        .span5(style='height: 850px;')
+            div(style='background: url("img/Image1.png") no-repeat; background-size: 100% 100%; margin-left: 0px; margin-top: 200px; height: 400px; width: 400px;')
+        .span7.thelayout-list
+            .__formData
+               h1(style='color: #734c9e;')= title
+               form(data-ng-controller="gluserAppController" style='float: none; margin-top: 20px;' name='addUser', method='post', action='/user', enctype='multipart/form-data')
+                  fieldset
+                     legend Add Employee Details
+                     div(style='float: right; overflow: hidden;')
+                        .__cropArea
+                           div(style=' margin: 10px; height: 60px;')
+                              label.width__formData(style='margin: 15px; ') Profile Picture :
+                              img(id= 'cropPicImg', src= 'img/empty_slot.png', style = ' border: 2px solid white; margin-left: 10px' height= '50', width= '50',  data-ng-src='{{myCroppedImage}}')
+
+                           .__browse__DragDiv
+                              div(style='position: absolute; margin: 0 20px;')
+                                 h3(id='headerBrowseDragCr' style='color: white; z-index: 1; margin-left: 10px; text-align: center; margin-top: 50px;' ) Click (or) Drag it here
+
+                                 .alias__browsediv(style='display: block; height: 25px; width: 80px; margin: 0 auto; background: white; text-align: center; padding-top: 3px; font-weight: bold;' id='browsedivbtnCr2' data-ng-click='browseimageAlias()') Browse
+
+                              input.__browse__buttonLong( type='file', id='profilePicCreate', accept='image/*', data-ng-file-select='handleFileSelect($file)', class='data-ng-hide', onchange='angular.element(this).scope().handleFileSelect(this)')
+
+                              img-crop(name = 'croppedInfo', image='myImage', data-ng-model='myCroppedImage', result-image='myCroppedImage', result-image-quality='1', on-change='fileUploader()')
+
+                           .alias__browsediv(style='display: none; height: 25px; width: 80px; margin: 10px auto; background: white; text-align: center; padding-top: 3px; font-weight: bold;' id='browsedivbtnCr' data-ng-click='browseimageAlias()') Browse
+                     p
+                     label.width__formData First Name :
+                     input(type='text', name='fName', placeholder='Enter First Name Here', required)
+                     p
+                     label.width__formData Middle Name :
+                     input(type='text', name='mName', placeholder='Enter Middle Name Here', value='')
+                     p
+                     label.width__formData Last Name :
+                     input(type='text', name='lName', placeholder='Enter Last Name Here', required)
+                     p
+                     label.width__formData Employee ID :
+                     input(type='text', name='empId', placeholder='Enter Employee ID Here', required)
+                     p
+                     label.width__formData Designation :
+                     input(type='text', name='designation', placeholder='Enter Designation Here', required)
+                     p
+                     label.width__formData Department :
+                     input(type='text', name='department', placeholder='Enter Department Here', required)
+                     p
+                     label.width__formData Division :
+                     input(type='text', name='division', placeholder='Enter Division Here', required)
+                     p
+                     label.width__formData Skill Sets :
+                     input(type='text' name='skillSets' placeholder='Enter your Skillsets Here', value='')
+                     p
+                     label.width__formData Company :
+                     select(name='company' data-ng-value='selectedCompany' data-ng-model='selectedCompany' data-ng-options='company as company for company in companies track by company' data-ng-change='generateBranches()' placeholder='--Select the Company--' required)
+                        option(value='' disabled selected hidden ) --Select the Company--
+                     script.
+                        var companyList = !{JSON.stringify(companyList)}
+                     p
+                     label.width__formData( data-ng-show='!isBranchVisible' ) Branch :
+                     select(name='branch' data-ng-value='selectedBranch' data-ng-model='selectedBranch' data-ng-show='!isBranchVisible' data-ng-options='branch as branch for branch in branches track by branch' required)
+                        option(value='' disabled selected hidden ) --Select the Branch--
+                     script.
+                        var branchList = !{JSON.stringify(branchList)}
+                     p
+                     label.width__formData( data-ng-show='!isBranchVisible') Manager :
+                     select(name='manager' id='selectManager' data-ng-model='selectedManager' data-ng-options='manager._id as manager.fName + " " + manager.mName + " " + manager.lName for manager in managers track by manager._id' data-ng-value='selectedManager._id' data-ng-show='!isBranchVisible' required)
+                        option(value='' disabled selected hidden ) --Select the Manager--
+                     script.
+                        var managerList = !{JSON.stringify(managerList)}
+                     p
+                  fieldset
+                     legend Employee Contact
+                     p
+                        label.width__formData Work Number :
+                        input(type='text', name='workNo', value='')
+                     p
+                        label.width__formData Mobile Number :
+                        input(type='text', name='mobNo', required)
+                     p
+                        label.width__formData eMail ID :
+                        input(type='email', name='emailId', required)
+                  fieldset
+                     legend Employee Address
+                     p
+                        label.width__formData Address Line1 :
+                        input(type='text', name='addressLine1', required)
+                     p
+                        label.width__formData Address Line2 :
+                        input(type='text', name='addressLine2', required)
+                     p
+                        label.width__formData Address Line3 :
+                        input(type='text', name='addressLine3', required)
+                     p
+                        label.width__formData City :
+                        input(type='text', name='city', required)
+                     p
+                        label.width__formData State :
+                        input(type='text', name='state', required)
+                      p
+                        label.width__formData Pin Code :
+                        input(type='number', name='pinCode', required)
+                     p
+                        label.width__formData Country :
+                        input(type='text', name='country', required)
+
+                     p(data-ng-show='false')
+                        input(type='text' name='croppedImage' value='{{ myCroppedImage }}')
+
+                    div.actions
+                        p
+                        input(type='submit' value='Submit')

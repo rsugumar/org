@@ -1,0 +1,7 @@
+extends layout
+
+block content
+	div.container-fluid.orgChartContainer.removePadding(ng-controller="OrgChartController")
+		div.row.removeMargin
+			div.col-sm-12.removePadding				
+				div(ng-include="'partials/nested.html'")

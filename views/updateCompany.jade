@@ -1,0 +1,92 @@
+extends layout
+
+block content
+   #page.container.site
+      .row-fluid.thelayout
+         .span5(style='height: 850px;')
+            div(style='background: url("img/image5.png") no-repeat; background-size: 100% 100%; margin-left: 0px; margin-top: 140px; height: 400px; width: 400px;')
+            div(style='background: url("img/image6.png") no-repeat; background-size: 100% 100%; margin-left: 0px; margin-top: 100px; height: 400px; width: 400px;')
+         .span7.thelayout-list
+            div(data-ng-controller='updateCompanyCtrl')
+              .__formData
+                h1= 'Update Company Details'
+                form( name='verifyDb' , method='post', action='/updateCompany')
+                  fieldset
+                    legend Find the Company you want to edit
+                    p
+                      label Company ID:
+                      select(name='CompanyId' data-ng-model='selectedCompany' data-ng-change='generateBranches()', required)
+                        option(value='') --Select the CompanyId--
+                        option(data-ng-repeat='companyId in companyIds track by $index' value='{{companyId}}') {{companyId}}
+                      script.
+                        var companyIdList = !{JSON.stringify(companyIdList)}
+                    p
+                      label Branch ID:
+                      select(name='branchId' data-ng-model='selectedBranch', required)
+                        option(value='') --Select the Branch--
+                        option(data-ng-repeat='branchId in branchIds track by $index' value='{{branchId}}') {{branchId}}
+                      script.
+                        var branchIdList = !{JSON.stringify(branchIdList)}
+                  div.actions
+                    p
+                    input(data-ng-click='isEnabled( )' type='submit', value='Search')
+              div(style='margin-top: 0px;').__formData
+                div(data-ng-show='#{isDisabled}' data-ng-cloak)
+                  form(style='float: none; margin: 20px auto;', name='addCompany', method='post' action='/updateCompany/upddel')
+                    fieldset
+                      fieldset
+                        legend Company Info
+                        p
+                          label Company Name :
+                          input(type='text', name='cName', value=locals.companyName, required)
+                        p
+                          label Company ID :
+                          input(type='text', name='cId', value=locals.companyId, required)
+                        p
+                          label Branch Name :
+                          input(type='text', name='brName', value=locals.branchName , required)
+                        p
+                          label Branch ID :
+                          input(type='text', name='brId', value=locals.branchId, required)
+                      fieldset
+                        legend Company Contact
+                        p
+                          label Work Number :
+                          input(type='text', name='workNo', value=locals.workNumber, required)
+                        p
+                          label Mobile Number :
+                          input(type='text', name='mobNo', value=locals.mobNumber, required)
+                        p
+                          label eMail ID :
+                          input(type='email', name='emailId', value=locals.email, required)
+                      fieldset
+                        legend Company Address
+                        p
+                          label Address Line 1 :
+                          input(type='text', name='addressLine1', value=locals.addrL1, required)
+                        p
+                          label Address Line 2 :
+                          input(type='text', name='addressLine2', value=locals.addrL2, required)
+                        p
+                          label Address Line 3 :
+                          input(type='text', name='addressLine3', value=locals.addrL3, required)
+                        p
+                          label City :
+                          input(type='text', name='city',  value=locals.city, required)
+                        p
+                          label State :
+                          input(type='text', name='state',  value=locals.state, required)
+                        p
+                           label.width__formData Pin Code :
+                           input(type='number', name='pinCode', required)
+                        p
+                          label Country :
+                          input(type='text', name='country',  value=locals.country, required)
+
+                        div.actions
+                          p
+                            input(name='companyid' , value= '#{companyObjId}' data-ng-hide='true')
+                            input(name='branchid' , value= '#{branchObjId}' data-ng-hide='true')
+                            input( name='button' type='submit', value='Update' )
+                            input( name='button', style = 'margin-left: 15px', type='submit', value='Delete Company')
+                            input( name='button', style = 'margin-left: 15px', type='submit', value='Delete Branch')

@@ -1,0 +1,65 @@
+extends layout
+
+block content
+   #page.container.site
+      .row-fluid.thelayout
+         .span5.thelayout-intro(style='margin-top: 20px; height: 960px;')
+            div(style='background: url("img/image3.png") no-repeat; background-size: 100% 100%; margin-left: 0px; margin-top: 140px; height: 400px; width: 400px;')
+            div(style='background: url("img/image4.png") no-repeat; background-size: 100% 100%; margin-left: 0px; margin-top: 100px; height: 300px; width: 400px;')
+         .span7.thelayout-list
+            .__formData
+               form(style='float: none; margin: 0 auto;', name='addCompany', method='post', action='/company')
+                  fieldset
+                     h2(style='color: #734c9e;')= title
+                     fieldset
+                        legend Company Info
+                        p
+                           label.width__formData Company Name :
+                           input(type='text', name='cName', required)
+                        p
+                           label.width__formData Company ID :
+                           input(type='text', name='cId', required)
+                        p
+                           label.width__formData Branch Name :
+                           input(type='text', name='brName', required)
+                        p
+                           label.width__formData Branch ID :
+                           input(type='text', name='brId', required)
+                     fieldset
+                        legend Company Contact
+                        p
+                           label.width__formData Work Number :
+                           input(type='text', name='workNo', required)
+                        p
+                           label.width__formData Mobile Number :
+                           input(type='text', name='mobNo', required)
+                        p
+                           label.width__formData eMail ID :
+                           input(type='email', name='emailId', required)
+                     fieldset
+                        legend Company Address
+                        p
+                           label.width__formData Address Line 1 :
+                           input(type='text', name='addressLine1', required)
+                        p
+                           label.width__formData Address Line 2 :
+                           input(type='text', name='addressLine2', required)
+                        p
+                           label.width__formData Address Line 3 :
+                           input(type='text', name='addressLine3', required)
+                        p
+                           label.width__formData City :
+                           input(type='text', name='city', required)
+                        p
+                           label.width__formData State :
+                           input(type='text', name='state', required)
+                        p
+                           label.width__formData Pin Code :
+                           input(type='number', name='pinCode', required)
+                        p
+                           label.width__formData Country :
+                           input(type='text', name='country', required)
+
+                  div.actions
+                     p
+                     input(type='submit', value='Submit')

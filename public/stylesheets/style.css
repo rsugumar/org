@@ -1,0 +1,123 @@
+body {
+  padding: 50px;
+  padding-left: 0px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background-color: #d3a6cc;
+}
+
+.logo {
+  color: #cccccc;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.bulkRegisterTableContainer{
+	margin-top: 10px;
+}
+
+.grid {
+  margin-top: 10px;
+  width: 100%;
+  height: 450px;
+}
+
+.modal-dialog{
+	background: #16469c;
+}
+
+.grid .ui-grid-footer-info{
+	background: darkgrey;
+    padding: 7px;
+}
+
+.grid .ui-grid-scrollbar-placeholder{
+	background: #dad8d8;
+}
+.cropArea {
+    background: #ffffff;
+    overflow: hidden;
+    width:450px;
+    height:400px;
+    margin-bottom: 10px;
+    border: 3px solid lightblue;
+}
+
+.customcenter{
+	margin-top: 3vh;
+	width: 80px;
+	height: 30px;
+}
+
+.__cropArea {
+    
+    opacity: .95;
+    overflow: hidden;
+    width:350px;
+    height:300px;
+    margin-top: 10px;
+}
+
+label {
+	width: 120px;
+	color: #734c9e;	
+}
+
+.white {
+	color: #ffffff;
+}
+
+legend {
+	color: #734c9e;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: #ffffff;
+	font-weight: bold;
+}
+
+.__formData {
+	background-color: #cec4e1;
+	padding: 20px;
+	padding-top: 10px;
+	opacity: .95;
+	z-index: 1;
+	margin-top: 80px;
+}
+
+.__browse__DragDiv {
+	margin: auto;
+	height: 150px;
+	overflow: hidden;
+	width: 300px;
+	border-style: dashed;
+	border-width: 3px;
+	border-color: white;
+}
+
+.__browse__buttonLong {
+	opacity: 0;
+	height: 140px;
+	width: 300px;
+	position: absolute;
+	z-index: 100;
+}
+
+.browse__button {
+	display: none;
+	opacity: 0;
+	margin: 20px 20px;
+	position: absolute;
+	z-index: 100;
+}
+
+.alias__browsediv {
+	height: 25px;
+	width: 80px;
+	margin: 20px auto;
+	background: lightblue;
+	text-align: center;
+	padding-top: 3px;
+	font-weight: bold;
+}

@@ -1,0 +1,289 @@
+
+.header{
+	padding: 1px;
+    padding-left: 10px;
+    background: cornflowerblue;
+    position: fixed;
+    z-index: 2;
+}
+
+.header h1{
+	color: #001254;
+}
+.searchBar{
+	height: 30px;
+	margin: 20px;
+}
+
+.removePadding{
+	padding-left: 0px;
+	padding-right: 0px;	
+}
+
+.removeMargin{
+	margin-left: 0px;
+	margin-right: 0px;
+}
+
+.align-center{
+	text-align: center;;
+}
+
+.errorHeader{
+	background: #FF7878;
+}
+
+.orgChartContainer{
+	margin-top: 5px;
+}
+
+.leftPaneContainer{
+	background: #E2E2E2;
+	position: fixed;
+	z-index: 1;
+	min-height: 620px;
+}
+
+.rightPaneContainer{
+	margin-left: 16.7%;
+	width: 10000px;	
+}
+
+.addMarginTopBottom{
+	margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.leftPaneDivSpitter{
+	border-bottom: 1px solid #9A9A9A;
+}
+
+.nodeContainer{
+	padding: 5px;
+	background: #D0D0D0;
+	margin: 5px;
+} 
+
+.nodeHeader{
+	color: #7b7777;
+}
+
+.assignedUserListHolder{
+	background: #80FF80;
+	padding: 5px;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.nodeContainer{
+	background: #80FF80;
+	padding: 5px;
+    text-align: center;
+    margin-bottom: 5px;
+    min-width: 150px;
+}
+.unAssignedUsers h4{
+	text-align: center;
+}
+
+.unAssignedUsers ul{
+	list-style: none;
+} 
+
+.unAssignedUsers ul li{
+	margin-bottom: 5px;
+}
+
+.unAssignedNodeContainer{
+	border: 1px solid #003698;
+	background: #83AFFF;
+	padding: 5px;
+    text-align: center;
+    width: 100%;
+    height: 70px;
+} 
+
+.unAssignedNodeContainer .leftPaneNodeImageHolder{
+	width: 20%;
+    margin-top: 7px;
+    float: left;
+} 
+
+.unAssignedNodeContainer .leftPaneNodeImageHolder img{
+	width: 100%;
+}
+
+.leftPaneNodeDescriptionHolder{
+	width: 60%;
+	float: left;
+	margin-left: 5%;
+}
+
+.leftPaneNodeDescriptionHolder h4, .leftPaneNodeDescriptionHolder p, .leftPaneNodeDescriptionHolder .emailId {
+	margin-top: 0px;
+	margin-bottom: 4px;
+	text-align: left;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.leftPaneNodeDescriptionHolder .emailId {
+	font-size: 11px;
+}
+
+.leftPaneNodeDescriptionHolder .designationDesc{
+	font-size: 10px;
+}
+
+.unAssignedNodeContainer .actionContainer{
+	width: 14%;
+	float: left;
+}
+
+.unAssignedNodeContainer .actionContainer .editAction{
+	margin-bottom: 98%;
+}
+
+.unAssignedUsersListScroll{
+	overflow-y:scroll;
+	max-height: 338px;
+	padding-right: 5px;
+}
+
+.unAssignedUsersListScroll::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+.unAssignedUsersListScroll::-webkit-scrollbar
+{
+	width: 7px;
+	background-color: #F5F5F5;
+}
+
+
+.unAssignedUsersListScroll::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: grey;
+}
+
+
+.searchedActiveNode{
+	transform: scale(1.2);
+	background: #CBF9C0;
+}
+
+/*Now the CSS*/
+* {margin: 0; padding: 0;}
+.yellow{background:#FFEC94;}
+.orange{background:#FFF7EF;}
+.green{background:#B0E57C;}
+.royal-blue{background:#56BAEC;}
+.brown{background:#FFAEAE;}
+.green-one{background:#D6E3B5;}
+
+.tree{
+	background: #F9F9F9;
+}
+.tree ul {
+	padding-top: 20px; position: relative;
+	
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+.tree li {
+	float: left; text-align: center;
+	list-style-type: none;
+	position: relative;
+	padding: 20px 5px 0 5px;
+	
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+/*We will use ::before and ::after to draw the connectors*/
+
+.tree li::before, .tree li::after{
+	content: '';
+	position: absolute; top: 0; right: 50%;
+	border-top: 1px solid #ccc;
+	width: 50%; height: 20px;
+}
+.tree li::after{
+	right: auto; left: 50%;
+	border-left: 1px solid #ccc;
+}
+
+/*We need to remove left-right connectors from elements without 
+any siblings*/
+.tree li:only-child::after, .tree li:only-child::before {
+	display: none;
+}
+
+/*Remove space from the top of single children*/
+.tree li:only-child{ padding-top: 0;}
+
+/*Remove left connector from first child and 
+right connector from last child*/
+.tree li:first-child::before, .tree li:last-child::after{
+	border: 0 none;
+}
+/*Adding back the vertical connector to the last nodes*/
+.tree li:last-child::before{
+	border-right: 1px solid #ccc;
+	border-radius: 0 5px 0 0;
+	-webkit-border-radius: 0 5px 0 0;
+	-moz-border-radius: 0 5px 0 0;
+}
+.tree li:first-child::after{
+	border-radius: 5px 0 0 0;
+	-webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+}
+
+/*Time to add downward connectors from parents*/
+.tree ul ul::before{
+	content: '';
+	position: absolute; top: 0; left: 50%;
+	border-left: 1px solid #ccc;
+	width: 0; height: 20px;
+}
+
+.tree li a{
+	border: 1px solid #ccc;
+	padding: 5px 10px;
+	text-decoration: none;
+	color: #666;
+	font-family: arial, verdana, tahoma;
+	font-size: 11px;
+	display: inline-block;
+	min-width: 150px;
+	
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+/*Time for some hover effects*/
+/*We will apply the hover effect the the lineage of the element also*/
+.tree li a:hover, .tree li a:hover+ul li a {
+	background: #c8e4f8; color: #000; border: 1px solid #94a0b4;
+}
+/*Connector styles on hover*/
+.tree li a:hover+ul li::after, 
+.tree li a:hover+ul li::before, 
+.tree li a:hover+ul::before, 
+.tree li a:hover+ul ul::before{
+	border-color:  #94a0b4;
+}
+
+/*Thats all. I hope you enjoyed it.
+Thanks :)*/

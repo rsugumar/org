@@ -1,0 +1,28 @@
+{
+  "name": "GLUServer",
+  "description": "",
+  "main": "",
+  "authors": [
+    "Sukumar Raghavan <sukumar@mobionix.com>"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.8",
+    "bootstrap": "~3.3.6",
+    "font-awesome": "~4.5.0",
+    "jquery": "~2.2.0",
+    "fancyBox": "2.1.5",
+    "angular-ui-grid": "^3.1.1",
+    "angucomplete-alt": "~2.1.0",
+    "jquery.scrollTo": "~2.1.2"
+  }
+}
